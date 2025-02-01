@@ -18,6 +18,8 @@ SelfVMPO = TypeVar("SelfVMPO", bound="VMPO")
 
 class VMPO(OnPolicyAlgorithm):
     """
+    See https://arxiv.org/abs/1909.12238 (it uses slightly different notation for the Lagrange multipliers, see https://arxiv.org/abs/2401.13662 for 
+    the notation used here).
     :param policy: The policy model to use (MlpPolicy, CnnPolicy, ...)
     :param env: The environment to learn from (if registered in Gym, can be str)
     :param learning_rate: The learning rate, it can be a function
@@ -27,9 +29,11 @@ class VMPO(OnPolicyAlgorithm):
         NOTE: n_steps * n_envs must be greater than 1 (because of the advantage normalization)
         See https://github.com/pytorch/pytorch/issues/29372
     :param batch_size: Minibatch size
-    :param n_epochs: Number of epoch when optimizing the surrogate loss
+    :param n_epochs: Number of epoch when optimizing the VMPO loss
     :param gamma: Discount factor
     :param gae_lambda: Factor for trade-off of bias vs variance for Generalized Advantage Estimator
+    :param eps_eta: Hyperparameter controlling the temperature
+    :param eps_nu: Hyperparameter controlling the trust region constraint
     :param clip_range: Clipping parameter, it can be a function of the current progress
         remaining (from 1 to 0).
     :param clip_range_vf: Clipping parameter for the value function,
